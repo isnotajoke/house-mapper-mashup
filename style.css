@@ -1,0 +1,13 @@
+body {
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 1.2em;
+    margin: 20px;
+    line-height: 1.4;
+}
+
+blockquote {
+    background-color: #BDEDFF;
+    font-family: Times, Times New Roman, serif;
+    border: 1px solid #000000;
+    padding: 10px;
+}

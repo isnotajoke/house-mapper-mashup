@@ -28,7 +28,6 @@
           add_form = add_form + "<input type='submit' value='Submit' onclick='handleFormSubmit()'/>";
           var add_window = new google.maps.InfoWindow({"content": add_form});
           google.maps.event.addListener(remap.map, "click", function(mevent) {
-            alert("in click handler");
             add_window.open(remap.map);
             add_window.setPosition(mevent.latLng);
           });

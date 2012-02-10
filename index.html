@@ -10,7 +10,8 @@
     <script type='text/javascript'>
         var remap;
         function initialize() {
-          remap = new RealEstateMap("map_canvas");
+          var element = document.getElementById("map_canvas");
+          remap = new RealEstateMap(element);
           remap.add_destination("Cal Poly Pomona");
         }
         function handleFormSubmit() {
@@ -26,6 +27,7 @@
           add_form = add_form + "<input type='submit' value='Submit' onclick='handleFormSubmit()'/>";
           var add_window = new google.map.InfoWindow({"content": add_form});
           google.maps.event.addListener(remap.map, "click", function(mevent) {
+            alert("in click handler");
             add_window.open(map);
             add_window.setPosition(mevent.latLng);
           });

@@ -1,6 +1,6 @@
 Location = function() {}
 
-RealEstateMap = function(element_name) {
+RealEstateMap = function(element) {
     var me = this;
 	me.geocoder = new google.maps.Geocoder();
 	me.distance_service = new google.maps.DistanceMatrixService();
@@ -9,10 +9,9 @@ RealEstateMap = function(element_name) {
 		zoom:   12,
 		mapTypeId: google.maps.MapTypeId.ROADMAP
 	}
-	me.map = new google.maps.Map(document.getElementById(element_name), myOptions);
+	me.map = new google.maps.Map(element, myOptions);
 	me.destinations = [];
 	me.houses = [];
-    alert("done initializing map");
 }
 
 RealEstateMap.prototype = {};
@@ -40,21 +39,16 @@ RealEstateMap.prototype.make_loc_object = function (marker, addr, location) {
 
 RealEstateMap.prototype.add_destination = function(destination) {
 	// Destinations are places that we want to record the distance to.
-    alert("in add_destination");
     var me = this;
 	me.geocoder.geocode({'address': destination}, function(results, status) {
-        alert("in geocoder status");
 		if (status == google.maps.GeocoderStatus.OK) {
-            alert('geocoder response ok');
 			var marker = new google.maps.Marker({
 				icon: "http://www.googlemapsmarkers.com/v1/7CFC00",
 				map:	me.map,
 				position: results[0].geometry.location,
 			});
 			var loc = me.make_loc_object(marker, results[0].formatted_address, results[0].geometry.location);
-            alert("made loc object, adding to destinations");
 			me.destinations.push(loc);
-            alert("destinations length is now" + me.destinations.length);
 			me.update_house_distances(loc);
 		}
 	});
@@ -74,16 +68,12 @@ RealEstateMap.prototype.add_house = function(house) {
 }
 
 RealEstateMap.prototype.update_house_distances = function(dest) {
-    alert("in update house distances");
     var me = this;
-    alert("destinations length is " + me.destinations.length);
-    alert("updating for " + dest.name);
 	var house_strings = [];
 	for (var i = 0; i < me.houses.length; i++) {
 		house_strings.push(me.houses[i].name);
 	}
     if (house_strings.length == 0) {
-        alert("no house strings, not updating");
         return;
     }
 

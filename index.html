@@ -14,12 +14,19 @@
           remap = new RealEstateMap(element);
           remap.add_destination("Cal Poly Pomona");
           makeAddForm();
+          makeAddDestForm();
         }
         function handleFormSubmit() {
           var element = document.getElementById("address")
           var address = element.value;
           element.value = "";
           remap.add_house(address);
+        }
+        function handleDestFormSubmit() {
+          var element = document.getElementById("dest_addr");
+          var address = element.value;
+          element.value = "";
+          remap.add_destination(address);
         }
         function makeAddForm() {
           var add_form = "<h3>Add a place</h3>";
@@ -28,6 +35,17 @@
           add_form = add_form + "<input type='submit' value='Submit' onclick='handleFormSubmit()'/>";
           var add_window = new google.maps.InfoWindow({"content": add_form});
           google.maps.event.addListener(remap.map, "click", function(mevent) {
+            add_window.open(remap.map);
+            add_window.setPosition(mevent.latLng);
+          });
+        }
+        function makeAddDestForm() {
+          var add_form = "<h3>Add a destination</h3>";
+          add_form = add_form + "<label for='dest_addr'>Address:</label>";
+          add_form = add_form + "<input type='text' name='dest_addr' id='dest_addr' />";
+          add_form = add_form + "<input type='submit' value='Submit' onclick='handleDestFormSubmit()'/>";
+          var add_window = new google.maps.InfoWindow({"content": add_form});
+          google.maps.event.addListener(remap.map, "rightclick", function(mevent) {
             add_window.open(remap.map);
             add_window.setPosition(mevent.latLng);
           });

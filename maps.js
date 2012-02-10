@@ -56,7 +56,7 @@ RealEstateMap.prototype.add_destination = function(destination) {
 
 RealEstateMap.prototype.add_house = function(house) {
     var me = this;
-	me.geocoder.geocode({'address': destination}, function(results, status) {
+	me.geocoder.geocode({'address': house}, function(results, status) {
 		var marker = new google.maps.Marker({
 			map: me.map,
 			position: results[0].geometry.location,

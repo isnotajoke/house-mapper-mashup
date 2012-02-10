@@ -94,14 +94,15 @@ RealEstateMap.prototype.update_house_distances = function(dest) {
 				var time = element.duration.text;
 				var loc = me.houses[i];
 				content = loc.infoWindow.getContent();
-				content = me.append_time_to_content(distance, time, content);
+				content = me.append_time_to_content(dest.name, distance, time, content);
 				loc.infoWindow.setContent(content);
 			}
 		}
 	});
 }
 
-RealEstateMap.prototype.append_time_to_content = function(distance, time, content) {
+RealEstateMap.prototype.append_time_to_content = function(dest_name, distance, time, content) {
+	content = content + "<h4>" + dest_name + "</h4>";
  	content = content + "<p><b>distance: </b>" + distance + "</p>";
 	content = content + "<p><b>time: </b>" + time + "</p>";
 	return content;
@@ -129,7 +130,8 @@ RealEstateMap.prototype.populate_new_house = function(house) {
 				var distance = element.distance.text;
 				var time = element.duration.text;
 				content = house.infoWindow.getContent();
-				content = me.append_time_to_content(distance, time, content);
+				var dest_name = dest_strings[i];
+				content = me.append_time_to_content(dest_name, distance, time, content);
 				house.infoWindow.setContent(content);
 			}
 		}

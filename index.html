@@ -6,90 +6,35 @@
     <script type='text/javascript'
             src='http://maps.googleapis.com/maps/api/js?key=AIzaSyAc_MG5TzW9v8498N065gy0NKjhcVGLx7s&sensor=false'>
     </script>
-    <script type="text/javascript">
-      var geocoder;
-      var distance_service;
-      var starting_point = "Cal Poly Pomona";
-      var markers = [];
-      var map;
-      var starting_point_results;
-      function initialize() {
-        geocoder = new google.maps.Geocoder();
-        distance_service = new google.maps.DistanceMatrixService();
-        var myOptions = {
-          center: new google.maps.LatLng(-34.397, 150.644),
-          zoom: 12,
-          mapTypeId: google.maps.MapTypeId.ROADMAP
-        };
-        map = new google.maps.Map(document.getElementById("map_canvas"),
-            myOptions);
-        geocoder.geocode( {'address': starting_point}, function(results, status) {
-            if (status == google.maps.GeocoderStatus.OK) {
-                starting_point_results = results[0];
-            }
-            addLocation(results, status);
-        });
-      }
-
-      function handleFormSubmit() {
-        address = document.getElementById("address").value;
-        geocoder.geocode( {'address': address}, addLocation);
-      }
-
-      function addLocation(results, status) {
-            if (status == google.maps.GeocoderStatus.OK) {
-                var marker = new google.maps.Marker({
-                    map: map,
-                    position: results[0].geometry.location
-                });
-                markers.push(marker);
-                var myWindowOptions = {
-                    content: "<h3>" + results[0].formatted_address + "</h3>",
-                };
-                var infoWindow = new google.maps.InfoWindow(myWindowOptions);
-                google.maps.event.addListener(marker, "click", function() {
-                    infoWindow.open(map, marker);
-                });
-                google.maps.event.addListener(infoWindow, "close", function() {
-                    infoWindow.close();
-                });
-                map.setCenter(results[0].geometry.location);
-                addDistances(results[0].formatted_address, infoWindow);
-            }
-      }
-      function addDistances(address, infoWindow) {
-        distance_service.getDistanceMatrix(
-            {
-                origins: [address],
-                destinations: [starting_point],
-                travelMode: google.maps.TravelMode.DRIVING,
-                unitSystem: google.maps.UnitSystem.IMPERIAL,
-                avoidHighways: false,
-                avoidTolls: false
-            }, function(response, status) {
-                if (status == google.maps.DistanceMatrixStatus.OK) {
-                    var element = response.rows[0].elements[0];
-                    var distance = element.distance.text;
-                    var time = element.duration.text;
-                    var content = infoWindow.getContent();
-                    var content = content + "<p><b>distance</b>:" + distance + "</p>" + "<p><b>time:</b>" + time + "</p>";
-                    infoWindow.setContent(content);
-                }
-            });
-      }
+    <script type='text/javascript' src='maps.js'></script>
+    <script type='text/javascript'>
+        var remap;
+        function initialize() {
+          remap = new RealEstateMap("map_canvas");
+          remap.add_destination("Cal Poly Pomona");
+        }
+        function handleFormSubmit() {
+          var element = document.getElementById("address")
+          var address = element.value;
+          element.value = "";
+          remap.add_destination(address);
+        }
+        function makeAddForm() {
+          var add_form = "<h3>Add a place</h3>";
+          add_form = add_form + "<label for='address'>Address:</label>";
+          add_form = add_form + "<input type='text' name='address' id='address' />"; 
+          add_form = add_form + "<input type='submit' value='Submit' onclick='handleFormSubmit()'/>";
+          var add_window = new google.map.InfoWindow({"content": add_form});
+          google.maps.event.addListener(remap.map, "click", function(mevent) {
+            add_window.open(map);
+            add_window.setPosition(mevent.latLng);
+          });
+        }
     </script>
-    
 </head>
 
 <body onload='initialize()'>
     <div id='map_canvas' style='width: 100%; height: 100%'></div>
-    <div id='controls'>
-        <h2>Add a potential house</h2> 
-
-            <label for='address'>Address:</label>
-            <input type='text' name='address' id='address' />
-            <input type='submit' name='submit' value='Submit' onclick='handleFormSubmit()' />
-    </div>
 </body>
 
 </html>

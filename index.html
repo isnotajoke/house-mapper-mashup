@@ -13,22 +13,23 @@
           var element = document.getElementById("map_canvas");
           remap = new RealEstateMap(element);
           remap.add_destination("Cal Poly Pomona");
+          makeAddForm();
         }
         function handleFormSubmit() {
           var element = document.getElementById("address")
           var address = element.value;
           element.value = "";
-          remap.add_destination(address);
+          remap.add_house(address);
         }
         function makeAddForm() {
           var add_form = "<h3>Add a place</h3>";
           add_form = add_form + "<label for='address'>Address:</label>";
           add_form = add_form + "<input type='text' name='address' id='address' />"; 
           add_form = add_form + "<input type='submit' value='Submit' onclick='handleFormSubmit()'/>";
-          var add_window = new google.map.InfoWindow({"content": add_form});
+          var add_window = new google.maps.InfoWindow({"content": add_form});
           google.maps.event.addListener(remap.map, "click", function(mevent) {
             alert("in click handler");
-            add_window.open(map);
+            add_window.open(remap.map);
             add_window.setPosition(mevent.latLng);
           });
         }

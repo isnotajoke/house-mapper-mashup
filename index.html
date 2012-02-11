@@ -50,10 +50,13 @@
             add_window.setPosition(mevent.latLng);
           });
         }
+        function exit() {
+          remap.save();
+        }
     </script>
 </head>
 
-<body onload='initialize()'>
+<body onload='initialize()' onunload='exit()'>
     <div id='map_canvas' style='width: 100%; height: 100%'></div>
 </body>
 

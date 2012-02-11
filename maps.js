@@ -19,14 +19,14 @@ RealEstateMap.prototype = {};
 RealEstateMap.prototype.make_loc_object = function (marker, addr, location) {
     var me = this;
 	var myWindowOptions = {
-    	content: "<h3>" + addr + "</h3>"
+		content: "<h3>" + addr + "</h3>"
 	};
 	var infoWindow = new google.maps.InfoWindow(myWindowOptions);
 	google.maps.event.addListener(marker, "click", function() {
 		infoWindow.open(me.map, marker);
 	});
 	google.maps.event.addListener(infoWindow, "close", function() {
-  	infoWindow.close();
+		infoWindow.close();
 	});
 	me.map.setCenter(location);
 
@@ -103,7 +103,7 @@ RealEstateMap.prototype.update_house_distances = function(dest) {
 
 RealEstateMap.prototype.append_time_to_content = function(dest_name, distance, time, content) {
 	content = content + "<h4>" + dest_name + "</h4>";
- 	content = content + "<p><b>distance: </b>" + distance + "</p>";
+	content = content + "<p><b>distance: </b>" + distance + "</p>";
 	content = content + "<p><b>time: </b>" + time + "</p>";
 	return content;
 }

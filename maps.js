@@ -12,6 +12,7 @@ RealEstateMap = function(element) {
 	me.map = new google.maps.Map(element, myOptions);
 	me.destinations = [];
 	me.houses = [];
+	me.load();
 }
 
 RealEstateMap.prototype = {};
@@ -149,4 +150,44 @@ RealEstateMap.prototype.populate_new_house = function(house) {
 			}
 		}
 	});
+}
+
+/*
+ * Write destinations and houses to persistent browser storage
+ */
+RealEstateMap.prototype.save = function() {
+	var me = this;
+	// XXX: Only tested in Firefox
+	var house_names = [];
+	for (var i = 0; i < me.houses.length; i++) {
+		house_names.push(me.houses[i].name);
+	}
+	var serialized_houses 	    = JSON.stringify(house_names);
+
+	var destination_names = [];
+	for (var i = 0; i < me.destinations.length; i++) {
+		destination_names.push(me.destinations[i].name);
+	}
+	var serialized_destinations = JSON.stringify(destination_names);
+	localStorage.setItem("houses", serialized_houses);
+	localStorage.setItem("destinations", serialized_destinations);
+}
+
+/*
+ * Load destinations and houses from persistent browser storage
+ */
+RealEstateMap.prototype.load = function() {
+	var me = this;
+	if (localStorage.getItem("houses")) {
+		var houses = JSON.parse(localStorage.getItem("houses"));
+		for (var i = 0; i < houses.length; i++) {
+			me.add_house(houses[i]);
+		}
+	}
+	if (localStorage.getItem("destinations")) {
+		var destinations = JSON.parse(localStorage.getItem("destinations"));
+		for (var i = 0; i < destinations.length; i++) {
+			me.add_destination(destinations[i]);
+		}
+	}
 }

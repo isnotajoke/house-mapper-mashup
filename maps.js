@@ -23,6 +23,7 @@ RealEstateMap.prototype.make_loc_object = function (marker, addr, location) {
 	};
 	var infoWindow = new google.maps.InfoWindow(myWindowOptions);
 	google.maps.event.addListener(marker, "click", function() {
+		me.close_infowindows();
 		infoWindow.open(me.map, marker);
 	});
 	google.maps.event.addListener(infoWindow, "close", function() {
@@ -35,6 +36,18 @@ RealEstateMap.prototype.make_loc_object = function (marker, addr, location) {
 	loc.name = addr;
 	loc.infoWindow = infoWindow;
 	return loc;
+}
+
+RealEstateMap.prototype.close_windows = function () {
+    var me = this;
+    for (var i = 0; i < me.destinations.length; i++) {
+        var loc = medestinations[i];
+        loc.infoWindow.close();
+    }
+    for (var i = 0; i < me.houses.length; i++) {
+        var loc = me.houses[i];
+        loc.infoWindow.close();
+    }
 }
 
 RealEstateMap.prototype.add_destination = function(destination) {

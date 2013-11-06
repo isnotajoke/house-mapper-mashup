@@ -4,7 +4,7 @@ websites. I also wanted to try my hand at a browser-based application.
 This is the result; an unpolished and not particularly attractive mashup
 of Google maps (okay, so aggregating data from one set of APIs isn't
 really a mashup) that lets me plot waypoints for houses and destinations
-that I can about (grocery stores, work, culture, etc) and compare travel
+that I care about (grocery stores, work, culture, etc) and compare travel
 times between those points. I intend to add other sources of data, too;
 in particular, I'd like to associate each house with a walk score, and
 possibly other things.
